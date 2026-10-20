@@ -34,7 +34,9 @@ for t in $TARGETS; do
         $O/test_module.obj $O/crt.obj build/win_$A/opus_*.obj $O/msvcrt.lib $MINGW/lib/libkernel32.a
       cp bin/gmsv_zradio_$t.dll $O/
       echo "=== $t (wine)"
-      (cd $O && WINEDEBUG=-all wine test_module.exe gmsv_zradio_$t.dll) || fail=1
+      WINE=wine; command -v wine >/dev/null || WINE=wine64
+      command -v $WINE >/dev/null || { echo "error: wine not found"; fail=1; continue; }
+      (cd $O && WINEDEBUG=-all $WINE test_module.exe gmsv_zradio_$t.dll) || { echo "error: $t test exited with $?"; fail=1; }
       ;;
     *) echo "unknown target $t"; exit 2 ;;
   esac

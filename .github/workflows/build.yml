@@ -38,7 +38,7 @@ jobs:
           if-no-files-found: error
 
       - name: Install Wine (to run the Windows tests)
-        run: sudo apt-get install -y --no-install-recommends wine64 wine32:i386
+        run: sudo apt-get install -y --no-install-recommends wine wine64 wine32:i386
 
       - name: Test (fake engine + real ILuaBase, all four builds)
         env:
@@ -56,7 +56,7 @@ jobs:
               "=== "*) target="${line#=== }" ;;
               FAIL*) echo "::error title=$target::${line}" ;;
               "ALL PASSED"*|FAILED*) echo "::notice title=$target::${line}" ;;
-              *"failed"*|*"error"*|*"Error"*) echo "::warning title=$target::${line}" ;;
+              *"failed"*|*"error"*|*"Error"*|*"not found"*|*"No such"*|*"cannot"*) echo "::warning title=$target::${line}" ;;
             esac
           done < test.log
           { echo '### Test results'; echo '```'; cat test.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
