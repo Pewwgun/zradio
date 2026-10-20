@@ -6,6 +6,11 @@ on:
     tags: ["v*"]
   pull_request:
   workflow_dispatch:
+    inputs:
+      release_tag:
+        description: "Make a release with this tag (e.g. v1.1.0). Leave empty to just build."
+        required: false
+        default: ""
 
 permissions:
   contents: write   # needed to attach DLLs to releases on tags
@@ -62,9 +67,26 @@ jobs:
           { echo '### Test results'; echo '```'; cat test.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           exit $rc
 
-      - name: Attach to release (tags only)
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Release (on v* tags, or when run by hand with a release tag)
+        if: startsWith(github.ref, 'refs/tags/v') || inputs.release_tag != ''
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ inputs.release_tag || github.ref_name }}
+          target_commitish: ${{ github.sha }}
+          name: gmsv_zradio ${{ inputs.release_tag || github.ref_name }}
           files: bin/*.dll
           generate_release_notes: true
+          body: |
+            Server module for the Z-City **Walkie-Talkie Radio Test** addon.
+            Original addon: https://steamcommunity.com/sharedfiles/filedetails/?id=3823679001
+
+            Put the DLLs in `garrysmod/lua/bin/` on the server (for a listen server, the host's PC):
+
+            | File | For |
+            |---|---|
+            | `gmsv_zradio_win32.dll` | Windows, normal GMod branch (most listen servers) |
+            | `gmsv_zradio_win64.dll` | Windows, x86-64 beta branch |
+            | `gmsv_zradio_linux.dll` | Linux dedicated server, 32-bit |
+            | `gmsv_zradio_linux64.dll` | Linux dedicated server, 64-bit |
+
+            Built and tested by GitHub Actions (all four, Windows tests under Wine).
