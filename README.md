@@ -2,6 +2,8 @@
 
 realistic radio thing for zcity, this is jsut the dll tho
 
+**Original addon:** https://steamcommunity.com/sharedfiles/filedetails/?id=3823679001
+
 `gmsv_zradio` is the Garry's Mod server module behind the Z-City **Walkie-Talkie Radio Test** addon.
 It hooks the engine's voice broadcast and gives every radio listener their own copy of the
 talker's voice, run through a real-time two-way NBFM radio simulation. The addon's Lua decides
