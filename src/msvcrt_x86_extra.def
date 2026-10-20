@@ -1,0 +1,10 @@
+LIBRARY msvcrt.dll
+EXPORTS
+_alldiv
+_allmul
+_allrem
+_aulldiv
+_aullrem
+_allshl
+_allshr
+_aullshr

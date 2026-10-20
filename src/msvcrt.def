@@ -1,0 +1,24 @@
+LIBRARY msvcrt.dll
+EXPORTS
+acos
+atan2
+calloc
+cos
+exp
+floor
+free
+log
+log10
+malloc
+memcpy
+memmove
+memset
+pow
+sin
+sqrt
+tanh
+_snprintf
+ldexp
+qsort
+realloc
+_assert

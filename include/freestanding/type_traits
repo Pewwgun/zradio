@@ -1,0 +1,6 @@
+// Minimal <type_traits> for the freestanding Windows build (GarrysMod/Lua/LuaBase.h only needs these two).
+#pragma once
+namespace std {
+	template <class T> struct alignment_of { static const unsigned long long value = alignof(T); };
+	template <class T> struct is_trivially_destructible { static const bool value = __is_trivially_destructible(T); };
+}
